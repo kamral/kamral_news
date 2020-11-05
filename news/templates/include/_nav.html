@@ -1,0 +1,55 @@
+        <nav class="na vbar navbar-expand-lg navbar-dark bg-dark">
+<!--            данный скласс ссылки на 'blog-home'
+                 позволяет возвращать на главную страницу сайта-->
+<!--                navbar-brand-используется для выделения логотипа,
+                    font-weight-bold-определяет его шрифт-->
+
+                <a class="navbar-brand font-weight-bold" href="{%url 'home'%}">
+               News</a>
+<!--                    Чтобы создать складную панель навигации, -->
+<!--                используйте кнопку с class="navbar-toggler",-->
+<!--                data-toggle="collapse" -->
+<!--                and data-target="#thetarget"-->
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+<!--                    Затем оберните содержимое навигационной панели (ссылки и т.д.)-->
+<!--                    внутри элемента div с class="collapse navbar-collapse"-->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="/">
+                          <i class="fas fa-home"></i> Home
+                          <span class="sr-only">(current)</span></a>
+                    </li>
+                        <li class="nav-item active">
+                      <a class="nav-link" href="{%url 'contact'%}">
+                          <i class="fas fa-home"></i> Contact
+                          <span class="sr-only">(current)</span></a>
+                    </li>
+                  </ul>
+
+
+                  <!------{{ request.get_host }}/blog/search/-->
+                  <form id="searchform" action="#" method="get">
+                    <input type="text" name="q" type="text" value="{{ request.GET.q }}" placeholder="Search Here..." />
+                    <button type="button" onclick="searchform.submit()" class=" text-white my-color btn-primary"><i class="fa fa-search"></i></button>
+                </form>
+
+                    {% if user.is_authenticated %}
+                    <a href="#" class="btn text-white m-2"><i class="fas fa-user-shield"></i> My Post</a>
+                    <a href="{% url 'add_news'%} " class="btn text-white m-2"><i class="fas fa-user-edit"></i> New Post</a>
+                    <a href="#" class="btn text-white m-2"><i class="fas fa-user"></i> Добро пожаловать {{ user.username }}</a>
+                    <a href="{% url 'logout'%}" class="btn text-white m-2"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+
+                    {% else %}
+                    <a href="{%url 'login'%} " class="btn text-white m-2"><i class="fas fa-user-tie"></i> Log In</a>
+
+                    <a href="{%url 'register'%} " class="btn text-white m-2"> <i class="fas fa-sign-in-alt"></i> Sign Up</a>
+                    {% endif %}
+
+                </div>
+              </nav>

@@ -1,0 +1,129 @@
+{%load static%}
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+<!--      Чтобы обеспечить правильную визуализацию и масштабирование касания, -->
+<!--      добавьте следующий <meta> тег внутри <head> элемента:-->
+<!--      width=device-width, деталь устанавливает ширину страницы -->
+<!--      для того чтобы последовать за шириной экрана прибора-->
+<!--      (которая будет меняться в зависимости от прибора).-->
+<!--      initial-scale=1деталь задает начальный уровень масштабирования -->
+<!--      при первой загрузке страницы обозревателем.-->
+    <meta name="viewport" content="width=device-width,
+    initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+      <link rel="stylesheet" href="{%static 'css/style.css'%}">
+
+
+        <title>{%block title%} Новости со всего мира {%endblock title%}</title>
+
+</head>
+  <body>
+<!--        тег nav-имеет настройки для создания верхнего участка-->
+<!--        #сайта с кнопкой для выпадающего меню-->
+{%include 'include/_nav.html'%}
+
+
+<div class="container mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            {%block sidebar%} SIDEBAR {%endblock sidebar%}
+        </div>
+        <div class="col-md-9">
+            {% if messages%}
+            {%for message in messages%}
+                {%if message.tags == 'message.error'%}
+                       <div class="alert alert-danger" role="alert">
+                           {{message}}
+                       </div>
+                {%else%}
+                       <div class="alert alert-{{message.tags}}" role="alert">
+                            a simple primary alert check it out
+                            простое первичное оповещение проверьте это
+                       </div>
+                {%endif%}
+
+            {%endfor%}
+            {%endif%}
+            {%block content%} CONTENT {%endblock content%}
+<!--            если на странице статей только на 1 страницу -->
+<!--            то не выводить снизу пагинацию-->
+            {% if page_obj.has_other_pages%}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!--                    проверяет если предыдущая страница в пагинации-->
+                    {% if page_obj.has_previous%}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="?page={{page_obj.previous_page_number}}">Previous</a>
+                    </li>
+                    {%endif%}
+                    {%for p in page_obj.paginator.page_range%}
+
+                        <!--                    делаем текущую страницу активной. Если page_number
+                                                равен активной странице(p)-->
+                        {% if page_obj.number == p%}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{p}}">{{p}}<span class="sr-only">(current)</span></a>
+                        </li>
+                        <!--                        если мы на 4 странице add добавляет 3 страницы слева -->
+                        <!--                        и 3 страницы справа в пагинации. -->
+                        {%elif p > page_obj.number|add:-3 and p < page_obj.number|add:3%}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{p}}">{{p}}</a>
+                        </li>
+                        {%endif%}
+
+                    {%endfor%}
+                     {% if page_obj.has_next%}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a>
+                        </li>
+                        {%endif%}
+                </ul>
+            </nav>
+            {%endif %}
+        </div>
+    </div>
+</div>
+
+     <!--самая нижняя часть сайта-->
+<section id="footer_nav" class="bg-light mt-4">
+    <div class="container pt-3 pb-4">
+        <dl class="row mb-0">
+            <div class="col-sm">
+                <dt class="mb-1 mt-2">Topics</dt>
+                <dd class="mb-0">
+                    <a class="text-dark" href="https://disk.yandex.ru/client/disk">
+                        Cloud Disk</a>
+                </dd>
+             </div>
+            <div class="col-sm">
+                <dt class="mb-1 mt-2">Our project in GitHub</dt>
+                <dd class="mb-0">
+                     <a class="text-dark" href="https://github.com/kamral/Django_Web_App">Kamral Magaramov&nbsp;</a>
+                </dd>
+            </div>
+            <div class="col-sm">
+                <dt class="mb-1 mt-2">Follow Us</dt>
+                <dd class="mb-0">
+                    <img style="height: 1.5rem" src="https://img.icons8.com/color/48/000000/vk-circled.png"/>
+                        <a class="text-dark" href="https://vk.com/magomed19941994">Vkontakte&nbsp;</a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    </section>
+
+  {%include 'include/_foo.html'%}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+
+  </body>
+</html>
