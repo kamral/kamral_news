@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'ckeditor',
     'ckeditor_uploader',
-    'captcha',
+    # 'captcha',
 ]
 
 REST_FRAMEWORK={
@@ -89,9 +89,12 @@ WSGI_APPLICATION = 'test_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'us_news',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'NAME': 'db_news'
     }
 }
 
